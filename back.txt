@@ -1,9 +1,0 @@
-  TRY
-            xpath:/html/body/div[3]/md-select-menu/md-content/md-option[${estado}]/div[1]
-    EXCEPT
-        Click Element when Visible    xpath:/html/body/div[4]/md-select-menu/md-content/md-option[${estado}]/div[1]
-    END}
-
-    /html/body/div[3]/md-select-menu/md-content/md-option[2]
-    xpath://md-option[contains(@class,'ng-scope') and contains(@id, 'select') and descendant::div[contains(@class,'_md-text') and normalize-space(.)='Disponible']]
-    

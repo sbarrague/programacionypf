@@ -10,24 +10,22 @@ Library             RPA.Excel.Files
 Library             RPA.Windows
 Library             Collections
 Library             RPA.Desktop
+Library             RPA.Assistant
 
 
 *** Variables ***
-${estado}                       2
-${usuario}                      arielacosta@grupoberaldi.com
-${contraseña}                   Dispo2022e
-${fecha}                        20230715
+${usuario}          arielacosta@grupoberaldi.com
+${contraseña}       Dispo2022e
 @{DNIsConError}
-${Archivo_Disponibilidad}
-...                             C:/Users/sbarrague/Desktop/Escritorio/robocorpdispoquadminds/DISPO 31-03-2023 VIERNES.xls
 
 
 *** Tasks ***
 Automatizacion Carga de Datos a Quadminds
+    ${response}=    Subir Excel
     Abrir Quadminds
     Log in
-    ${disponibilidad}=    Abrir excel y guardar datos con JSON
-    Rediccionar a Disponibilidad fecha    ${fecha}
+    ${disponibilidad}=    Abrir excel y guardar datos con JSON    ${response}
+    Rediccionar a Disponibilidad fecha    ${response}
     Eliminar Choferes Pre-Cargados    ${disponibilidad}
     Loop Carga    ${disponibilidad}
     Guardar Disponibilidad Tractor
@@ -43,15 +41,31 @@ Log in
     Input Text    login-password    ${contraseña}
     Click Button    name:login
 
+Subir Excel
+    Add heading    Programación YPF
+    ${fecha}=    Add Text Input    Fecha Programación    default=20230426
+    Add file input
+    ...    label=Subir Excel programación
+    ...    name=archivo
+    ...    source= ${OUTPUT_DIR}
+    ...    multiple=false
+    Add submit buttons    buttons=Cargar    default=Cargar
+    ${response}=    Run dialog
+    Log    ${response}
+    Log    ${response}[Fecha Programación]
+    Log    ${response}[archivo][0]
+    RETURN    ${response}
+
 Abrir excel y guardar datos con JSON
-    Open workbook    ${Archivo_Disponibilidad}
+    [Arguments]    ${response}
+    Open workbook    ${response}[archivo][0]
     ${worksheet}=    Read worksheet    header=${TRUE}
     ${disponibilidad}=    Create table    ${worksheet}
     RETURN    ${disponibilidad}
 
 Rediccionar a Disponibilidad fecha
-    [Arguments]    ${fecha}
-    Go To    https://saas.quadminds.com/ypf/plan/?apli=6056#/${fecha}
+    [Arguments]    ${response}
+    Go To    https://saas.quadminds.com/ypf/plan/?apli=6056#/${response}[Fecha Programación]
 
 Eliminar Choferes Pre-Cargados
     [Arguments]    ${disponibilidad}
@@ -85,7 +99,7 @@ Loop Carga
             Confirmar Chofer Mañana    ${tractor}
         EXCEPT
             Error Chofer    ${tractor}
-            Append To List    ${DNIsConError}    ${tractor}[P.Tractor]${tractor}[DNI mañana]
+            Append To List    ${DNIsConError}    (${tractor}[P.Tractor],${tractor}[DNI mañana])
         END
         TRY
             Click en Agregar Chofer Tarde
@@ -95,7 +109,7 @@ Loop Carga
             Confirmar Chofer Tarde    ${tractor}
         EXCEPT
             Error Chofer    ${tractor}
-            Append To List    ${DNIsConError}    ${tractor}[P.Tractor]${tractor}[DNI tarde]
+            Append To List    ${DNIsConError}    (${tractor}[P.Tractor],${tractor}[DNI tarde])
         END
     END
 
@@ -154,7 +168,7 @@ Seleccionar Servicio
 Seleccionar horario Mañana
     [Arguments]    ${tractor}
     ${horarioMañanaOk}=    Set Variable    ${False}
-    WHILE    ${horarioMañanaOk} == ${False}
+    WHILE    ${horarioMañanaOk} == ${False}    limit= 40
         Wait Until Element Is Enabled
         ...    xpath://input[@name='start']
         Click Button    xpath://input[@name='start']
@@ -183,18 +197,14 @@ Seleccionar horario Mañana
 Confirmar Chofer Mañana
     [Arguments]    ${tractor}
     ${valor_campo}=    RPA.Browser.Selenium.Get Value    xpath://input[@name='start']
-    IF    "${valor_campo}" != "${tractor}[Horario Mañana]"
-        Seleccionar horario Mañana    ${tractor}
-    END
-    Sleep    2s
-    IF    "${valor_campo}" != "${tractor}[Horario Mañana]"
-        Seleccionar horario Mañana    ${tractor}
-    END
     ${visible}=    Is Element Visible    xpath:/html/body//md-dialog/form/md-toolbar/div/button/span
     Click Element When Visible    xpath:/html/body//md-dialog/form/md-dialog-actions/button[2]/span
-    Sleep    1s
     ${visible}=    Is Element Visible    xpath:/html/body//md-dialog/form/md-toolbar/div/button/span
     WHILE    ${visible}==${True}
+        WHILE    "${valor_campo}" != "${tractor}[Horario Mañana]"    limit=30
+            Seleccionar horario Mañana    ${tractor}
+            ${valor_campo}=    RPA.Browser.Selenium.Get Value    xpath://input[@name='start']
+        END
         Click Element When Visible    xpath:/html/body//md-dialog/form/md-toolbar/div/button/span
         Capture Page Screenshot
     END
@@ -221,7 +231,7 @@ Seleccionar Chofer Tarde
 Seleccionar horario Tarde
     [Arguments]    ${tractor}
     ${horarioTardeOk}=    Set Variable    ${False}
-    WHILE    ${horarioTardeOk} == ${False}
+    WHILE    ${horarioTardeOk} == ${False}    limit= 40
         Wait Until Element Is Enabled
         ...    xpath://input[@name='start']
         Click Button    xpath://input[@name='start']
@@ -244,16 +254,13 @@ Seleccionar horario Tarde
 Confirmar Chofer Tarde
     [Arguments]    ${tractor}
     ${valor_campo}=    RPA.Browser.Selenium.Get Value    xpath://input[@name='start']
-    IF    "${valor_campo}" != "${tractor}[Horario Tarde]"
-        Seleccionar horario Tarde    ${tractor}
-    END
-    Sleep    2s
-    IF    "${valor_campo}" != "${tractor}[Horario Tarde]"
-        Seleccionar horario Tarde    ${tractor}
-    END
     Click Element When Visible    xpath:/html/body//md-dialog/form/md-dialog-actions/button[2]/span
     ${visible}=    Is Element Visible    xpath:/html/body//md-dialog/form/md-toolbar/div/button/span
     WHILE    ${visible}==${True}
+        WHILE    "${valor_campo}" != "${tractor}[Horario Tarde]"    limit=30
+            Seleccionar horario Tarde    ${tractor}
+            ${valor_campo}=    RPA.Browser.Selenium.Get Value    xpath://input[@name='start']
+        END
         Click Element When Visible    xpath:/html/body//md-dialog/form/md-toolbar/div/button/span
         Capture Page Screenshot
     END

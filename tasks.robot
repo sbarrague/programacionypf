@@ -95,6 +95,7 @@ Loop Carga
             Click en Agregar Chofer Mañana
             Seleccionar Chofer Mañana    ${tractor}
             Seleccionar Servicio
+            Seleccionar Duracion Mañana
             Seleccionar horario Mañana    ${tractor}
             Confirmar Chofer Mañana    ${tractor}
         EXCEPT
@@ -165,6 +166,19 @@ Seleccionar Servicio
     Click Element When Visible
     ...    xpath://md-option[contains(@class,'ng-scope') and contains(@class,'md-ink-ripple') and contains(@id,'select_option') and normalize-space(.)='CIF-TLM-Adjudicatario-Z-I']
 
+Seleccionar Duracion Mañana
+    ${valor_campo_duracion}=    RPA.Browser.Selenium.Get Value
+    ...    xpath:/html/body//md-dialog/form/md-dialog-content/div/div[4]/md-input-container[2]/input
+    WHILE    "${valor_campo_duracion}" != "11"
+        Click Element When Visible
+        ...    xpath:/html/body//md-dialog/form/md-dialog-content/div/div[4]/md-input-container[2]/input
+        Input Text
+        ...    xpath:/html/body//md-dialog/form/md-dialog-content/div/div[4]/md-input-container[2]/input
+        ...    11
+        ${valor_campo_duracion}=    RPA.Browser.Selenium.Get Value
+        ...    xpath:/html/body//md-dialog/form/md-dialog-content/div/div[4]/md-input-container[2]/input
+    END
+
 Seleccionar horario Mañana
     [Arguments]    ${tractor}
     ${horarioMañanaOk}=    Set Variable    ${False}
@@ -175,11 +189,13 @@ Seleccionar horario Mañana
         Input Text
         ...    xpath://input[@name='start']
         ...    00:00:00,000
-        Click Button    xpath:/html/body//md-dialog/form/md-dialog-content/div/div[4]/md-input-container[2]/input
+        Click Element When Visible
+        ...    xpath:/html/body//md-dialog/form/md-dialog-content/div/div[2]/md-autocomplete/md-autocomplete-wrap/md-input-container/input
         Input Text
         ...    xpath://input[@name='start']
         ...    ${tractor}[Horario Mañana]
-        Click Button    xpath:/html/body//md-dialog/form/md-dialog-content/div/div[4]/md-input-container[2]/input
+        Click Element When Visible
+        ...    xpath:/html/body//md-dialog/form/md-dialog-content/div/div[2]/md-autocomplete/md-autocomplete-wrap/md-input-container/input
         ${valor_campo}=    RPA.Browser.Selenium.Get Value    xpath://input[@name='start']
         IF    "${valor_campo}" == "${tractor}[Horario Mañana]"
             ${horarioMañanaOk}=    Set Variable    ${True}
@@ -188,22 +204,32 @@ Seleccionar horario Mañana
         END
     END
 
-    Click Element When Visible
-    ...    xpath:/html/body//md-dialog/form/md-dialog-content/div/div[4]/md-input-container[2]/input
-    Input Text
-    ...    xpath:/html/body//md-dialog/form/md-dialog-content/div/div[4]/md-input-container[2]/input
-    ...    11
-
 Confirmar Chofer Mañana
     [Arguments]    ${tractor}
     ${valor_campo}=    RPA.Browser.Selenium.Get Value    xpath://input[@name='start']
+    ${valor_campo_duracion}=    RPA.Browser.Selenium.Get Value
+    ...    xpath:/html/body//md-dialog/form/md-dialog-content/div/div[4]/md-input-container[2]/input
     ${visible}=    Is Element Visible    xpath:/html/body//md-dialog/form/md-toolbar/div/button/span
+    WHILE    "${valor_campo}" != "${tractor}[Horario Mañana]"    limit=30
+        Seleccionar horario Mañana    ${tractor}
+        ${valor_campo}=    RPA.Browser.Selenium.Get Value    xpath://input[@name='start']
+    END
+    WHILE    "${valor_campo_duracion}" != "11"
+        Seleccionar Duracion Mañana
+        ${valor_campo_duracion}=    RPA.Browser.Selenium.Get Value
+        ...    xpath:/html/body//md-dialog/form/md-dialog-content/div/div[4]/md-input-container[2]/input
+    END
     Click Element When Visible    xpath:/html/body//md-dialog/form/md-dialog-actions/button[2]/span
     ${visible}=    Is Element Visible    xpath:/html/body//md-dialog/form/md-toolbar/div/button/span
     WHILE    ${visible}==${True}
         WHILE    "${valor_campo}" != "${tractor}[Horario Mañana]"    limit=30
             Seleccionar horario Mañana    ${tractor}
             ${valor_campo}=    RPA.Browser.Selenium.Get Value    xpath://input[@name='start']
+        END
+        WHILE    ${valor_campo_duracion} != 11
+            Seleccionar Duracion Mañana
+            ${valor_campo_duracion}=    RPA.Browser.Selenium.Get Value
+            ...    xpath:/html/body//md-dialog/form/md-dialog-content/div/div[4]/md-input-container[2]/input
         END
         Click Element When Visible    xpath:/html/body//md-dialog/form/md-toolbar/div/button/span
         Capture Page Screenshot

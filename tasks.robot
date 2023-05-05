@@ -16,7 +16,7 @@ Library             exportcsv.py
 
 *** Variables ***
 ${usuario}          arielacosta@grupoberaldi.com
-${contraseña}       Dispo2022e
+${contraseña}       Dispo2023e
 @{DNIsConError}     patente,DNIConError
 
 
@@ -61,7 +61,7 @@ Subir Excel
 Abrir excel y guardar datos con JSON
     [Arguments]    ${response}
     Open workbook    ${response}[archivo][0]
-    ${worksheet}=    Read worksheet    name=Programacion    start=7    header=${TRUE}
+    ${worksheet}=    Read worksheet    header=${TRUE}
     ${disponibilidad}=    Create table    ${worksheet}
     RETURN    ${disponibilidad}
 
@@ -108,6 +108,7 @@ Loop Carga
             Click en Agregar Chofer Tarde
             Seleccionar Chofer Tarde    ${tractor}
             Seleccionar Servicio
+            Seleccionar Duracion Tarde
             Seleccionar horario Tarde    ${tractor}
             Confirmar Chofer Tarde    ${tractor}
         EXCEPT
@@ -255,6 +256,19 @@ Seleccionar Chofer Tarde
     ...    ${tractor}[DNI tarde]
     Click Element When Visible
     ...    xpath:/html/body/md-virtual-repeat-container/div/div[2]/ul/li/md-autocomplete-parent-scope/span
+
+Seleccionar Duracion Tarde
+    ${valor_campo_duracion}=    RPA.Browser.Selenium.Get Value
+    ...    xpath:/html/body//md-dialog/form/md-dialog-content/div/div[4]/md-input-container[2]/input
+    WHILE    "${valor_campo_duracion}" != "10"
+        Click Element When Visible
+        ...    xpath:/html/body//md-dialog/form/md-dialog-content/div/div[4]/md-input-container[2]/input
+        Input Text
+        ...    xpath:/html/body//md-dialog/form/md-dialog-content/div/div[4]/md-input-container[2]/input
+        ...    10
+        ${valor_campo_duracion}=    RPA.Browser.Selenium.Get Value
+        ...    xpath:/html/body//md-dialog/form/md-dialog-content/div/div[4]/md-input-container[2]/input
+    END
 
 Seleccionar horario Tarde
     [Arguments]    ${tractor}

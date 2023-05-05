@@ -11,12 +11,13 @@ Library             RPA.Windows
 Library             Collections
 Library             RPA.Desktop
 Library             RPA.Assistant
+Library             exportcsv.py
 
 
 *** Variables ***
 ${usuario}          arielacosta@grupoberaldi.com
 ${contraseña}       Dispo2022e
-@{DNIsConError}
+@{DNIsConError}     patente,DNIConError
 
 
 *** Tasks ***
@@ -29,6 +30,7 @@ Automatizacion Carga de Datos a Quadminds
     Eliminar Choferes Pre-Cargados    ${disponibilidad}
     Loop Carga    ${disponibilidad}
     Guardar Disponibilidad Tractor
+    Guardar en CSV Dnis con errores
 
 
 *** Keywords ***
@@ -59,7 +61,7 @@ Subir Excel
 Abrir excel y guardar datos con JSON
     [Arguments]    ${response}
     Open workbook    ${response}[archivo][0]
-    ${worksheet}=    Read worksheet    header=${TRUE}
+    ${worksheet}=    Read worksheet    name=Programacion    start=7    header=${TRUE}
     ${disponibilidad}=    Create table    ${worksheet}
     RETURN    ${disponibilidad}
 
@@ -100,7 +102,7 @@ Loop Carga
             Confirmar Chofer Mañana    ${tractor}
         EXCEPT
             Error Chofer    ${tractor}
-            Append To List    ${DNIsConError}    (${tractor}[P.Tractor],${tractor}[DNI mañana])
+            Append To List    ${DNIsConError}    ${tractor}[P.Tractor],${tractor}[DNI mañana]
         END
         TRY
             Click en Agregar Chofer Tarde
@@ -110,7 +112,7 @@ Loop Carga
             Confirmar Chofer Tarde    ${tractor}
         EXCEPT
             Error Chofer    ${tractor}
-            Append To List    ${DNIsConError}    (${tractor}[P.Tractor],${tractor}[DNI tarde])
+            Append To List    ${DNIsConError}    ${tractor}[P.Tractor]${tractor}[DNI tarde]
         END
     END
 
@@ -310,3 +312,6 @@ Guardar Disponibilidad Tractor
     Wait Until Element Is Visible
     ...    xpath:/html/body/div[1]/div[2]/div/div/div[1]/div[2]/button[3]/span
     ...    timeout=120
+
+Guardar en CSV Dnis con errores
+    Guardar En CSV    ${DNIsConError}

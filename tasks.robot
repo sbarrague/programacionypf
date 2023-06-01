@@ -98,7 +98,7 @@ Loop Carga
             Seleccionar Chofer Mañana    ${tractor}
             Seleccionar Servicio
             Seleccionar Duracion Mañana
-            Seleccionar horario Mañana    ${tractor}
+            Seleccionar Horario_Mañana    ${tractor}
             Confirmar Chofer Mañana    ${tractor}
         EXCEPT
             Error Chofer    ${tractor}
@@ -197,11 +197,11 @@ Seleccionar horario Mañana
         ...    xpath:/html/body//md-dialog/form/md-dialog-content/div/div[2]/md-autocomplete/md-autocomplete-wrap/md-input-container/input
         Input Text
         ...    xpath://input[@name='start']
-        ...    ${tractor}[Horario Mañana]
+        ...    ${tractor}[Horario_Mañana]
         Click Element When Visible
         ...    xpath:/html/body//md-dialog/form/md-dialog-content/div/div[2]/md-autocomplete/md-autocomplete-wrap/md-input-container/input
         ${valor_campo}=    RPA.Browser.Selenium.Get Value    xpath://input[@name='start']
-        IF    "${valor_campo}" == "${tractor}[Horario Mañana]"
+        IF    "${valor_campo}" == "${tractor}[Horario_Mañana]"
             ${horarioMañanaOk}=    Set Variable    ${True}
         ELSE
             ${horarioMañanaOk}=    Set Variable    ${False}
@@ -214,7 +214,7 @@ Confirmar Chofer Mañana
     ${valor_campo_duracion}=    RPA.Browser.Selenium.Get Value
     ...    xpath:/html/body//md-dialog/form/md-dialog-content/div/div[4]/md-input-container[2]/input
     ${visible}=    Is Element Visible    xpath:/html/body//md-dialog/form/md-toolbar/div/button/span
-    WHILE    "${valor_campo}" != "${tractor}[Horario Mañana]"    limit=30
+    WHILE    "${valor_campo}" != "${tractor}[Horario_Mañana]"    limit=30
         Seleccionar horario Mañana    ${tractor}
         ${valor_campo}=    RPA.Browser.Selenium.Get Value    xpath://input[@name='start']
     END
@@ -227,7 +227,7 @@ Confirmar Chofer Mañana
     ${visible}=    Is Element Visible    xpath:/html/body//md-dialog/form/md-toolbar/div/button/span
     WHILE    ${visible}==${True}    limit=3
         ${visible}=    Is Element Visible    xpath:/html/body//md-dialog/form/md-toolbar/div/button/spa
-        WHILE    "${valor_campo}" != "${tractor}[Horario Mañana]"    limit=30
+        WHILE    "${valor_campo}" != "${tractor}[Horario_Mañana]"    limit=30
             Seleccionar horario Mañana    ${tractor}
             ${valor_campo}=    RPA.Browser.Selenium.Get Value    xpath://input[@name='start']
         END

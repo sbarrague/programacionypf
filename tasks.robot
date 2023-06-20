@@ -15,8 +15,6 @@ Library             exportcsv.py
 
 
 *** Variables ***
-${usuario}          arielacosta@grupoberaldi.com
-${contraseña}       Dispo2023e
 @{DNIsConError}     patente,DNIConError
 
 
@@ -24,7 +22,7 @@ ${contraseña}       Dispo2023e
 Automatizacion Carga de Datos a Quadminds
     ${response}=    Subir Excel
     Abrir Quadminds
-    Log in
+    Log in    ${response}
     ${disponibilidad}=    Abrir excel y guardar datos con JSON    ${response}
     Rediccionar a Disponibilidad fecha    ${response}
     Eliminar Choferes Pre-Cargados    ${disponibilidad}
@@ -39,13 +37,18 @@ Abrir Quadminds
     ...    https://ssofed.ypf.com/affwebservices/public/saml2sso?SPID=https://saas.quadminds.com/simplesaml/module.php/saml/sp/saml2-acs.php/ypf-sp
 
 Log in
-    Input Text    name:USER    ${usuario}
-    Input Text    login-password    ${contraseña}
+    [Arguments]    ${response}
+    Input Text    name:USER    ${response}[usuario]
+    Input Text    login-password    ${response}[contraseña]
     Click Button    name:login
 
 Subir Excel
     Add heading    Programación YPF
-    ${fecha}=    Add Text Input    Fecha Programación    default=20230426
+    Add Text Input    Fecha Programación    default=20230426
+    Add Heading    usuario
+    Add Text Input    usuario    default=arielacosta@grupoberaldi.com
+    Add Heading    contraseña
+    Add Text Input    contraseña    default=Dispo2023f
     Add file input
     ...    label=Subir Excel programación
     ...    name=archivo

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<robot generator="Robot 5.0.1 (Python 3.9.13 on win32)" generated="20230620 12:24:51.962" rpa="true" schemaversion="3">
+<robot generator="Robot 5.0.1 (Python 3.9.13 on win32)" generated="20230620 12:29:46.800" rpa="true" schemaversion="3">
 <suite id="s1" name="Tasks" source="c:\Users\sbarrague\Desktop\Escritorio\robocorpdispoquadminds\tasks.robot">
 <test id="s1-t1" name="Automatizacion Carga de Datos a Quadminds" line="22">
 <kw name="Subir Excel">
@@ -7,38 +7,43 @@
 <kw name="Add Heading" library="RPA.Assistant">
 <arg>Programación YPF</arg>
 <doc>Add a centered heading text element</doc>
-<status status="PASS" starttime="20230620 12:24:54.880" endtime="20230620 12:24:54.880"/>
+<status status="PASS" starttime="20230620 12:29:49.818" endtime="20230620 12:29:49.818"/>
+</kw>
+<kw name="Add Heading" library="RPA.Assistant">
+<arg>Fecha Programacion a Subir</arg>
+<doc>Add a centered heading text element</doc>
+<status status="PASS" starttime="20230620 12:29:49.818" endtime="20230620 12:29:49.818"/>
 </kw>
 <kw name="Add Text Input" library="RPA.Assistant">
 <arg>Fecha Programación</arg>
 <arg>default=20230426</arg>
 <tag>input</tag>
 <doc>Add a text input element</doc>
-<status status="PASS" starttime="20230620 12:24:54.880" endtime="20230620 12:24:54.888"/>
+<status status="PASS" starttime="20230620 12:29:49.826" endtime="20230620 12:29:49.826"/>
 </kw>
 <kw name="Add Heading" library="RPA.Assistant">
 <arg>usuario</arg>
 <doc>Add a centered heading text element</doc>
-<status status="PASS" starttime="20230620 12:24:54.888" endtime="20230620 12:24:54.888"/>
+<status status="PASS" starttime="20230620 12:29:49.826" endtime="20230620 12:29:49.826"/>
 </kw>
 <kw name="Add Text Input" library="RPA.Assistant">
 <arg>usuario</arg>
 <arg>default=arielacosta@grupoberaldi.com</arg>
 <tag>input</tag>
 <doc>Add a text input element</doc>
-<status status="PASS" starttime="20230620 12:24:54.888" endtime="20230620 12:24:54.888"/>
+<status status="PASS" starttime="20230620 12:29:49.826" endtime="20230620 12:29:49.826"/>
 </kw>
 <kw name="Add Heading" library="RPA.Assistant">
 <arg>contraseña</arg>
 <doc>Add a centered heading text element</doc>
-<status status="PASS" starttime="20230620 12:24:54.888" endtime="20230620 12:24:54.888"/>
+<status status="PASS" starttime="20230620 12:29:49.826" endtime="20230620 12:29:49.826"/>
 </kw>
 <kw name="Add Text Input" library="RPA.Assistant">
 <arg>contraseña</arg>
 <arg>default=Dispo2023f</arg>
 <tag>input</tag>
 <doc>Add a text input element</doc>
-<status status="PASS" starttime="20230620 12:24:54.888" endtime="20230620 12:24:54.888"/>
+<status status="PASS" starttime="20230620 12:29:49.826" endtime="20230620 12:29:49.826"/>
 </kw>
 <kw name="Add File Input" library="RPA.Assistant">
 <arg>label=Subir Excel programación</arg>
@@ -47,85 +52,85 @@
 <arg>multiple=false</arg>
 <tag>input</tag>
 <doc>Add a file input element</doc>
-<status status="PASS" starttime="20230620 12:24:54.888" endtime="20230620 12:24:54.888"/>
+<status status="PASS" starttime="20230620 12:29:49.826" endtime="20230620 12:29:49.826"/>
 </kw>
 <kw name="Add Submit Buttons" library="RPA.Assistant">
 <arg>buttons=Cargar</arg>
 <arg>default=Cargar</arg>
 <tag>input</tag>
 <doc>Add custom submit buttons</doc>
-<status status="PASS" starttime="20230620 12:24:54.888" endtime="20230620 12:24:54.888"/>
+<status status="PASS" starttime="20230620 12:29:49.826" endtime="20230620 12:29:49.826"/>
 </kw>
 <kw name="Run Dialog" library="RPA.Assistant">
 <var>${response}</var>
 <tag>dialog</tag>
 <doc>Create a dialog from all the defined elements and block
 until the user has handled it.</doc>
-<msg timestamp="20230620 12:24:54.888" level="INFO">Protecting keyword: RPA.Assistant.Run Dialog</msg>
-<msg timestamp="20230620 12:25:12.027" level="INFO">Log level changed from NONE to INFO.</msg>
-<status status="PASS" starttime="20230620 12:24:54.888" endtime="20230620 12:25:12.027"/>
+<msg timestamp="20230620 12:29:49.834" level="INFO">Protecting keyword: RPA.Assistant.Run Dialog</msg>
+<msg timestamp="20230620 12:29:56.177" level="INFO">Log level changed from NONE to INFO.</msg>
+<status status="PASS" starttime="20230620 12:29:49.834" endtime="20230620 12:29:56.177"/>
 </kw>
 <kw name="Log" library="BuiltIn">
 <arg>${response}</arg>
 <doc>Logs the given message with the given level.</doc>
-<msg timestamp="20230620 12:25:12.027" level="INFO">{'Fecha Programación': '20230426', 'usuario': 'arielacosta@grupoberaldi.com', 'contraseña': 'Dispo2023f'}</msg>
-<status status="PASS" starttime="20230620 12:25:12.027" endtime="20230620 12:25:12.031"/>
+<msg timestamp="20230620 12:29:56.177" level="INFO">{'Fecha Programación': '20230426', 'usuario': 'arielacosta@grupoberaldi.com', 'contraseña': 'Dispo2023f'}</msg>
+<status status="PASS" starttime="20230620 12:29:56.177" endtime="20230620 12:29:56.177"/>
 </kw>
 <kw name="Log" library="BuiltIn">
 <arg>${response}[Fecha Programación]</arg>
 <doc>Logs the given message with the given level.</doc>
-<msg timestamp="20230620 12:25:12.031" level="INFO">20230426</msg>
-<status status="PASS" starttime="20230620 12:25:12.031" endtime="20230620 12:25:12.031"/>
+<msg timestamp="20230620 12:29:56.177" level="INFO">20230426</msg>
+<status status="PASS" starttime="20230620 12:29:56.177" endtime="20230620 12:29:56.177"/>
 </kw>
 <kw name="Log" library="BuiltIn">
 <arg>${response}[archivo][0]</arg>
 <doc>Logs the given message with the given level.</doc>
-<msg timestamp="20230620 12:25:12.031" level="FAIL">Dictionary '${response}' has no key 'archivo'.</msg>
-<status status="FAIL" starttime="20230620 12:25:12.031" endtime="20230620 12:25:12.031"/>
+<msg timestamp="20230620 12:29:56.185" level="FAIL">Dictionary '${response}' has no key 'archivo'.</msg>
+<status status="FAIL" starttime="20230620 12:29:56.177" endtime="20230620 12:29:56.185"/>
 </kw>
 <return>
 <value>${response}</value>
-<status status="NOT RUN" starttime="20230620 12:25:12.039" endtime="20230620 12:25:12.039"/>
+<status status="NOT RUN" starttime="20230620 12:29:56.187" endtime="20230620 12:29:56.187"/>
 </return>
-<status status="FAIL" starttime="20230620 12:24:54.880" endtime="20230620 12:25:12.039"/>
+<status status="FAIL" starttime="20230620 12:29:49.818" endtime="20230620 12:29:56.187"/>
 </kw>
 <kw name="Abrir Quadminds">
-<status status="NOT RUN" starttime="20230620 12:25:12.039" endtime="20230620 12:25:12.039"/>
+<status status="NOT RUN" starttime="20230620 12:29:56.187" endtime="20230620 12:29:56.187"/>
 </kw>
 <kw name="Log in">
 <arg>${response}</arg>
-<status status="NOT RUN" starttime="20230620 12:25:12.039" endtime="20230620 12:25:12.039"/>
+<status status="NOT RUN" starttime="20230620 12:29:56.187" endtime="20230620 12:29:56.187"/>
 </kw>
 <kw name="Abrir excel y guardar datos con JSON">
 <var>${disponibilidad}</var>
 <arg>${response}</arg>
-<status status="NOT RUN" starttime="20230620 12:25:12.044" endtime="20230620 12:25:12.044"/>
+<status status="NOT RUN" starttime="20230620 12:29:56.187" endtime="20230620 12:29:56.187"/>
 </kw>
 <kw name="Rediccionar a Disponibilidad fecha">
 <arg>${response}</arg>
-<status status="NOT RUN" starttime="20230620 12:25:12.044" endtime="20230620 12:25:12.044"/>
+<status status="NOT RUN" starttime="20230620 12:29:56.195" endtime="20230620 12:29:56.196"/>
 </kw>
 <kw name="Eliminar Choferes Pre-Cargados">
 <arg>${disponibilidad}</arg>
-<status status="NOT RUN" starttime="20230620 12:25:12.044" endtime="20230620 12:25:12.044"/>
+<status status="NOT RUN" starttime="20230620 12:29:56.196" endtime="20230620 12:29:56.196"/>
 </kw>
 <kw name="Loop Carga">
 <arg>${disponibilidad}</arg>
-<status status="NOT RUN" starttime="20230620 12:25:12.044" endtime="20230620 12:25:12.044"/>
+<status status="NOT RUN" starttime="20230620 12:29:56.196" endtime="20230620 12:29:56.196"/>
 </kw>
 <kw name="Guardar Disponibilidad Tractor">
-<status status="NOT RUN" starttime="20230620 12:25:12.044" endtime="20230620 12:25:12.044"/>
+<status status="NOT RUN" starttime="20230620 12:29:56.196" endtime="20230620 12:29:56.196"/>
 </kw>
 <kw name="Guardar en CSV Dnis con errores">
-<status status="NOT RUN" starttime="20230620 12:25:12.044" endtime="20230620 12:25:12.044"/>
+<status status="NOT RUN" starttime="20230620 12:29:56.201" endtime="20230620 12:29:56.201"/>
 </kw>
-<status status="FAIL" starttime="20230620 12:24:54.880" endtime="20230620 12:25:12.044">Dictionary '${response}' has no key 'archivo'.</status>
+<status status="FAIL" starttime="20230620 12:29:49.818" endtime="20230620 12:29:56.201">Dictionary '${response}' has no key 'archivo'.</status>
 </test>
 <doc>Template robot main suite.
 pendiente DNI
 error choferes a veces no carga el DNI
 ver errores Horarios</doc>
-<status status="FAIL" starttime="20230620 12:24:51.970" endtime="20230620 12:25:12.053"/>
+<status status="FAIL" starttime="20230620 12:29:46.818" endtime="20230620 12:29:56.209"/>
 </suite>
 <statistics>
 <total>

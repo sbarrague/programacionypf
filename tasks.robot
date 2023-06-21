@@ -12,15 +12,20 @@ Library             Collections
 Library             RPA.Desktop
 Library             RPA.Assistant
 Library             exportcsv.py
+Library             DateTime
+Library             sumar_dia.py
 
 
 *** Variables ***
 @{DNIsConError}     patente,DNIConError
+${usuario}          arielacosta@grupoberaldi.com
+${constraseña}      Dispo2023a
 
 
 *** Tasks ***
 Automatizacion Carga de Datos a Quadminds
-    ${response}=    Subir Excel
+    ${fecha_mañana}=    Sumar dia
+    ${response}=    Subir Excel    ${fecha_mañana}
     Abrir Quadminds
     Log in    ${response}
     ${disponibilidad}=    Abrir excel y guardar datos con JSON    ${response}
@@ -42,14 +47,20 @@ Log in
     Input Text    login-password    ${response}[contraseña]
     Click Button    name:login
 
+Sumar dia
+    ${fecha_hoy}=    Get Current Date    result_format=%Y%m%d
+    ${fecha_mañana}=    Sumar Un Dia    ${fecha_hoy}
+    RETURN    ${fecha_mañana}
+
 Subir Excel
+    [Arguments]    ${fecha_mañana}
     Add heading    Programación YPF
     Add heading    Fecha Programacion a Subir
-    Add Text Input    Fecha Programación    default=20230426
+    Add Text Input    Fecha Programación    default=${fecha_mañana}
     Add Heading    usuario
-    Add Text Input    usuario    default=arielacosta@grupoberaldi.com
+    Add Text Input    usuario    default=${usuario}
     Add Heading    contraseña
-    Add Text Input    contraseña    default=Dispo2023f
+    Add Text Input    contraseña    default=${constraseña}
     Add file input
     ...    label=Subir Excel programación
     ...    name=archivo
